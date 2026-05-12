@@ -1,3 +1,16 @@
+:root {
+    --background-color: #000000;
+
+    --container-color: rgba(20, 20, 20);
+
+    --text-color: white;
+
+    --button-color: rgb(45, 45, 45, 1);
+    --button-text: rgb(255, 255, 255);
+
+    --button-hover: rgb(45, 45, 45, 0.7);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -16,15 +29,25 @@ body {
     align-items: center;
 
     gap: 2rem;
+
+    background-color: var(--background-color);
+
+    color: var(--text-color);
 }
 
 .timer-container {
+    padding: 2rem;
+    
+    border-radius: 1rem;
+    
     display: flex;
+    
     flex-direction: column;
-
     align-items: center;
-
+    
     gap: 2rem;
+    
+    background-color: var(--container-color);
 }
 
 .timer-modes {
@@ -40,6 +63,28 @@ body {
 }
 
 .timer-display {
-    font-size: 5rem;
+    font-size: 6rem;
     font-weight: bold;
+}
+
+button {
+    border: none;
+
+    padding: 0.8rem 1.5rem;
+
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    background-color: var(--button-color);
+
+    color: var(--button-text);
+}
+
+button:hover {
+    background-color: var(--button-hover);
 }
