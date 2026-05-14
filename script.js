@@ -1,6 +1,5 @@
 const timer = document.getElementById("timer");
-const startButton = document.getElementById("btn-start");
-const pauseButton = document.getElementById("btn-pause");
+const startPauseButton = document.getElementById("btn-start-pause");
 const resetButton = document.getElementById("btn-reset");
 
 let sessionTime = 1500;
@@ -10,8 +9,7 @@ let interval;
 
 timer.textContent = formatTime(sessionTime);
 
-startButton.addEventListener("click", startTimer);
-pauseButton.addEventListener("click", pauseTimer);
+startPauseButton.addEventListener("click", toggleTimer);
 resetButton.addEventListener("click", resetTimer);
 
 function formatTime(totalSeconds) {
@@ -26,34 +24,46 @@ function updateTimerDisplay() {
 
 function resetTimeRemaining() {
     timeRemaining = sessionTime;
-    timer.textContent = formatTime(sessionTime);
+    updateTimerDisplay();
+}
+
+function updateButtonText() {
+    startPauseButton.textContent = isRunning ? "Pause" : "Start";
+}
+
+function toggleTimer() {
+    if (isRunning) {
+        pauseTimer();
+    } else {
+        startTimer();
+    }
 }
 
 function startTimer() {
-    if (!isRunning) {
-        isRunning = true;
-        interval = setInterval(function() {
-            if (timeRemaining === 0) {
-                clearInterval(interval);
-                isRunning = false;
-                resetTimeRemaining();
-                return;
-            }
-            timeRemaining--;
-            updateTimerDisplay();
-        }, 1000);
-    }
+    isRunning = true;
+    updateButtonText();
+    interval = setInterval(function() {
+        if (timeRemaining === 0) {
+            clearInterval(interval);
+            isRunning = false;
+            updateButtonText();
+            resetTimeRemaining();
+            return;
+        }
+        timeRemaining--;
+        updateTimerDisplay();
+    }, 1000);
 }
 
 function pauseTimer() {
-    if (isRunning) {
-        clearInterval(interval);
-        isRunning = false;
-    }
+    clearInterval(interval);
+    isRunning = false;
+    updateButtonText();
 }
 
 function resetTimer() {
     clearInterval(interval);
     resetTimeRemaining();
     isRunning = false;
+    updateButtonText();
 }

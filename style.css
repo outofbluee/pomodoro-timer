@@ -70,6 +70,8 @@ body {
 button {
     border: none;
 
+    min-width: 100px;
+
     padding: 0.8rem 1.5rem;
 
     border-radius: 0.5rem;
