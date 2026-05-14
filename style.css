@@ -1,14 +1,14 @@
 :root {
     --background-color: #000000;
 
-    --container-color: rgba(20, 20, 20);
+    --container-color: rgb(20, 20, 20);
 
     --text-color: white;
 
-    --button-color: rgb(45, 45, 45, 1);
+    --button-color: rgb(45, 45, 45);
     --button-text: rgb(255, 255, 255);
 
-    --button-hover: rgb(45, 45, 45, 0.7);
+    --button-hover: rgba(45, 45, 45, 0.7);
 }
 
 * {
