@@ -2,15 +2,38 @@ const timer = document.getElementById("timer");
 const startPauseButton = document.getElementById("btn-start-pause");
 const resetButton = document.getElementById("btn-reset");
 
-let sessionTime = 1500;
-let isRunning = false;
+const pomodoroButton = document.getElementById("btn-pomodoro");
+const shortBreakButton = document.getElementById("btn-short-break");
+const longBreakButton = document.getElementById("btn-long-break");
+
+let pomodoroTime = 3000;
+let shortBreakTime = 600;
+let longBreakTime = 1800;
+
+let sessionMode = "pomodoro";
+
+let sessionTime;
+updateSessionTime();
+
 let timeRemaining = sessionTime;
+
+let isRunning = false;
 let interval;
 
 timer.textContent = formatTime(sessionTime);
 
 startPauseButton.addEventListener("click", toggleTimer);
 resetButton.addEventListener("click", resetTimer);
+
+pomodoroButton.addEventListener("click", () => {
+    setMode("pomodoro");
+});
+shortBreakButton.addEventListener("click", () => {
+    setMode("short-break");
+});
+longBreakButton.addEventListener("click", () => {
+    setMode("long-break");
+});
 
 function formatTime(totalSeconds) {
     let minutes = Math.floor(totalSeconds / 60);
@@ -66,4 +89,26 @@ function resetTimer() {
     resetTimeRemaining();
     isRunning = false;
     updateButtonText();
+}
+
+function setMode(mode) {
+    sessionMode = mode;
+    updateSessionTime();
+    if (isRunning) {
+        resetTimer();
+    } else {
+        resetTimeRemaining();
+    }
+}
+
+function updateSessionTime() {
+    if (sessionMode === "pomodoro") {
+        sessionTime = pomodoroTime;
+    } else if (sessionMode === "short-break") {
+        sessionTime = shortBreakTime;
+    } else if (sessionMode === "long-break") {
+        sessionTime = longBreakTime;
+    } else {
+        sessionTime = pomodoroTime;
+    }
 }
