@@ -111,4 +111,11 @@ function updateSessionTime() {
     } else {
         sessionTime = pomodoroTime;
     }
+    updateActiveButton();
+}
+
+function updateActiveButton() {
+    pomodoroButton.classList.toggle("inactive", sessionMode !== "pomodoro");
+    shortBreakButton.classList.toggle("inactive", sessionMode !== "short-break");
+    longBreakButton.classList.toggle("inactive", sessionMode !== "long-break");
 }

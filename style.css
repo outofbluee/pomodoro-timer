@@ -87,6 +87,10 @@ button {
     color: var(--button-text);
 }
 
+.inactive {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 button:hover {
     background-color: var(--button-hover);
 }
