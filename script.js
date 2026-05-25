@@ -9,6 +9,9 @@ const longBreakButton = document.getElementById("btn-long-break");
 let pomodoroTime = 3000;
 let shortBreakTime = 600;
 let longBreakTime = 1800;
+// the expected end time of the current session,
+// based on the current time and the time remaining when the timer was last started.
+let endTime;
 
 let sessionMode = "pomodoro";
 
@@ -64,8 +67,11 @@ function toggleTimer() {
 
 function startTimer() {
     isRunning = true;
+    endTime = Date.now() + timeRemaining * 1000;
     updateButtonText();
+    // this interval will update the time remaining every second, and stop when it reaches 0.
     interval = setInterval(function() {
+        timeRemaining = Math.floor((endTime - Date.now()) / 1000);
         if (timeRemaining === 0) {
             clearInterval(interval);
             isRunning = false;
@@ -73,7 +79,6 @@ function startTimer() {
             resetTimeRemaining();
             return;
         }
-        timeRemaining--;
         updateTimerDisplay();
     }, 1000);
 }
