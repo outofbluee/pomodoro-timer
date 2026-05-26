@@ -80,7 +80,7 @@ function startTimer() {
             return;
         }
         updateTimerDisplay();
-    }, 1000);
+    }, 500);
 }
 
 function pauseTimer() {
