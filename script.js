@@ -74,7 +74,7 @@ function startTimer() {
     // this interval will update the time remaining every second, and stop when it reaches 0.
     interval = setInterval(function() {
         timeRemaining = Math.floor((endTime - Date.now()) / 1000);
-        if (timeRemaining === 0) {
+        if (timeRemaining <= 0) {
             clearInterval(interval);
             isRunning = false;
             updateButtonText();
