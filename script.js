@@ -6,6 +6,8 @@ const pomodoroButton = document.getElementById("btn-pomodoro");
 const shortBreakButton = document.getElementById("btn-short-break");
 const longBreakButton = document.getElementById("btn-long-break");
 
+const alarmSound = new Audio("/assets/audio/alarm.mp3");
+
 let pomodoroTime = 3000;
 let shortBreakTime = 600;
 let longBreakTime = 1800;
@@ -76,6 +78,7 @@ function startTimer() {
             clearInterval(interval);
             isRunning = false;
             updateButtonText();
+            alarmSound.play();
             resetTimeRemaining();
             return;
         }
