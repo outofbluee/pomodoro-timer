@@ -8,7 +8,7 @@ const longBreakButton = document.getElementById("btn-long-break");
 
 const alarmSound = new Audio("assets/audio/alarm.mp3");
 
-let pomodoroTime = 3;
+let pomodoroTime = 3000;
 let shortBreakTime = 600;
 let longBreakTime = 1800;
 // the expected end time of the current session,
@@ -78,15 +78,7 @@ function startTimer() {
             clearInterval(interval);
             isRunning = false;
             updateButtonText();
-            alarmSound.play()
-                .then(() => {
-                    console.log("Áudio tocou");
-                })
-                .catch((error) => {
-                    console.log("Erro ao tocar áudio:");
-                    console.log(error);
-                });
-            console.log("acabou!");
+            alarmSound.play();
             resetTimeRemaining();
             return;
         }
