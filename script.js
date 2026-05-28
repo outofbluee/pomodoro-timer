@@ -78,7 +78,15 @@ function startTimer() {
             clearInterval(interval);
             isRunning = false;
             updateButtonText();
-            alarmSound.play();
+            alarmSound.play()
+                .then(() => {
+                    console.log("Áudio tocou");
+                })
+                .catch((error) => {
+                    console.log("Erro ao tocar áudio:");
+                    console.log(error);
+                });
+            console.log("acabou!");
             resetTimeRemaining();
             return;
         }
