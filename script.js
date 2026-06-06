@@ -7,6 +7,7 @@ const shortBreakButton = document.getElementById("btn-short-break");
 const longBreakButton = document.getElementById("btn-long-break");
 
 const alarmSound = new Audio("assets/audio/alarm.mp3");
+const buttonClickSound = new Audio("assets/audio/button-click.mp3");
 
 let pomodoroTime = 3000;
 let shortBreakTime = 600;
@@ -27,8 +28,15 @@ let interval;
 
 timer.textContent = formatTime(sessionTime);
 
-startPauseButton.addEventListener("click", toggleTimer);
-resetButton.addEventListener("click", resetTimer);
+startPauseButton.addEventListener("click", () => {
+    buttonClickSound.play();
+    toggleTimer();
+});
+
+resetButton.addEventListener("click", () => {
+    buttonClickSound.play();
+    resetTimer();
+});
 
 pomodoroButton.addEventListener("click", () => {
     setMode("pomodoro");
