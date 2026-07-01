@@ -27,6 +27,7 @@ let isRunning = false;
 let interval;
 
 timer.textContent = formatTime(sessionTime);
+updatePageTitle();
 
 startPauseButton.addEventListener("click", () => {
     buttonClickSound.play();
@@ -54,8 +55,22 @@ function formatTime(totalSeconds) {
     return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
 }
 
+function getCurrentModeName() {
+    if (sessionMode === "pomodoro") {
+        return "Pomodoro";
+    } else if (sessionMode === "short-break") {
+        return "Short Break";
+    } else if (sessionMode === "long-break") {
+        return "Long Break";
+    }
+}
+
 function updateTimerDisplay() {
     timer.textContent = formatTime(timeRemaining);
+}
+
+function updatePageTitle() {
+    document.title = formatTime(timeRemaining) + " - " + getCurrentModeName();
 }
 
 function resetTimeRemaining() {
@@ -83,21 +98,28 @@ function startTimer() {
     interval = setInterval(function() {
         timeRemaining = Math.floor((endTime - Date.now()) / 1000);
         if (timeRemaining <= 0) {
-            clearInterval(interval);
-            isRunning = false;
-            updateButtonText();
-            alarmSound.play();
-            resetTimeRemaining();
+            endSession();
             return;
         }
         updateTimerDisplay();
+        updatePageTitle();
     }, 500);
+}
+
+function endSession() {
+    clearInterval(interval);
+    isRunning = false;
+    updateButtonText();
+    alarmSound.play();
+    resetTimeRemaining();
+    updatePageTitle();
 }
 
 function pauseTimer() {
     clearInterval(interval);
     isRunning = false;
     updateButtonText();
+    updatePageTitle();
 }
 
 function resetTimer() {
@@ -105,6 +127,7 @@ function resetTimer() {
     resetTimeRemaining();
     isRunning = false;
     updateButtonText();
+    updatePageTitle();
 }
 
 function setMode(mode) {
@@ -115,6 +138,7 @@ function setMode(mode) {
     } else {
         resetTimeRemaining();
     }
+    updatePageTitle();
 }
 
 function updateSessionTime() {
