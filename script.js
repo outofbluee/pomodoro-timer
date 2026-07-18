@@ -1,34 +1,44 @@
+// Get references to the HTML elements
 const timer = document.getElementById("timer");
 const startPauseButton = document.getElementById("btn-start-pause");
 const resetButton = document.getElementById("btn-reset");
+
+const settingsButton = document.getElementById("btn-settings");
+const settingsContainer = document.querySelector(".settings-container");
 
 const pomodoroButton = document.getElementById("btn-pomodoro");
 const shortBreakButton = document.getElementById("btn-short-break");
 const longBreakButton = document.getElementById("btn-long-break");
 
+const pomodoroTimeInput = document.getElementById("pomodoro-time");
+const shortBreakTimeInput = document.getElementById("short-break-time");
+const longBreakTimeInput = document.getElementById("long-break-time");
+const settingsForm = document.querySelector(".form-time")
+
+// Load audio files
 const alarmSound = new Audio("assets/audio/alarm.mp3");
 const buttonClickSound = new Audio("assets/audio/button-click.mp3");
 
+// Define the durations for each session type in seconds
 let pomodoroTime = 3000;
 let shortBreakTime = 600;
 let longBreakTime = 1800;
+
 // the expected end time of the current session,
 // based on the current time and the time remaining when the timer was last started.
 let endTime;
-
 let sessionMode = "pomodoro";
-
 let sessionTime;
 updateSessionTime();
-
 let timeRemaining = sessionTime;
-
 let isRunning = false;
 let interval;
+updateSettingsForm();
 
 timer.textContent = formatTime(sessionTime);
 updatePageTitle();
 
+// Add event listeners to the buttons
 startPauseButton.addEventListener("click", () => {
     buttonClickSound.play();
     toggleTimer();
@@ -37,6 +47,10 @@ startPauseButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
     buttonClickSound.play();
     resetTimer();
+});
+
+settingsButton.addEventListener("click", () => {
+    toggleSettingsContainer();
 });
 
 pomodoroButton.addEventListener("click", () => {
@@ -49,10 +63,18 @@ longBreakButton.addEventListener("click", () => {
     setMode("long-break");
 });
 
+settingsForm.addEventListener("submit", saveSettings);
+
 function formatTime(totalSeconds) {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
     return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
+}
+
+function updateSettingsForm() {
+    pomodoroTimeInput.value = pomodoroTime / 60;
+    shortBreakTimeInput.value = shortBreakTime / 60;
+    longBreakTimeInput.value = longBreakTime / 60;
 }
 
 function getCurrentModeName() {
@@ -88,6 +110,11 @@ function toggleTimer() {
     } else {
         startTimer();
     }
+}
+
+function toggleSettingsContainer() {
+    updateSettingsForm();
+    settingsContainer.classList.toggle("hidden");
 }
 
 function startTimer() {
@@ -154,8 +181,31 @@ function updateSessionTime() {
     updateActiveButton();
 }
 
+function updateTime(pomodoro, short, long) {
+    pomodoroTime = pomodoro;
+    shortBreakTime = short;
+    longBreakTime = long;
+
+    updateSessionTime();
+    if (isRunning) {
+        resetTimer();
+    } else {
+        resetTimeRemaining();
+    }
+    updatePageTitle();
+}
+
 function updateActiveButton() {
     pomodoroButton.classList.toggle("inactive", sessionMode !== "pomodoro");
     shortBreakButton.classList.toggle("inactive", sessionMode !== "short-break");
     longBreakButton.classList.toggle("inactive", sessionMode !== "long-break");
+}
+
+function saveSettings(event) {
+    event.preventDefault();
+    updateTime(
+        Number(pomodoroTimeInput.value) * 60,
+        Number(shortBreakTimeInput.value) * 60,
+        Number(longBreakTimeInput.value) * 60
+    );
 }

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +20,32 @@
             </svg>
         </button>
     </header>
+
+    <section class="settings-container hidden">
+        <div class="settings-header">
+            <h2>SETTINGS</h2>
+        </div>
+
+        <h3>Time (minutes)</h3>
+        <form class="form-time">
+            <div class="form-container">
+                <label for="pomodoro-time">Pomodoro</label>
+                <input type="number" id="pomodoro-time" name="pomodoro-time">
+            </div>
+
+            <div class="form-container">
+                <label for="short-break-time">Short Break</label>
+                <input type="number" id="short-break-time" name="short-break-time">
+            </div>
+
+            <div class="form-container">
+                <label for="long-break-time">Long Break</label>
+                <input type="number" id="long-break-time" name="long-break-time">
+            </div>
+
+            <input class="submit-settings" type="submit" value="Submit">
+        </form>
+    </section>
     
     <main>
         <section class="timer-container">
@@ -38,6 +65,7 @@
             </div>
         </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="script.js"></script>
-</body>
+    </body>
 </html>
