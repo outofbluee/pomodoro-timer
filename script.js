@@ -13,7 +13,8 @@ const longBreakButton = document.getElementById("btn-long-break");
 const pomodoroTimeInput = document.getElementById("pomodoro-time");
 const shortBreakTimeInput = document.getElementById("short-break-time");
 const longBreakTimeInput = document.getElementById("long-break-time");
-const settingsForm = document.querySelector(".form-time")
+const longBreakIntervalInput = document.getElementById("long-break-interval");
+const settingsForm = document.querySelector(".form-time");
 
 // Load audio files
 const alarmSound = new Audio("assets/audio/alarm.mp3");
@@ -30,6 +31,8 @@ let endTime;
 let sessionMode = "pomodoro";
 let sessionTime;
 updateSessionTime();
+let completedPomos = 0;
+let longBreakInterval = 2;
 let timeRemaining = sessionTime;
 let isRunning = false;
 let interval;
@@ -75,6 +78,7 @@ function updateSettingsForm() {
     pomodoroTimeInput.value = pomodoroTime / 60;
     shortBreakTimeInput.value = shortBreakTime / 60;
     longBreakTimeInput.value = longBreakTime / 60;
+    longBreakIntervalInput.value = longBreakInterval;
 }
 
 function getCurrentModeName() {
@@ -138,8 +142,16 @@ function endSession() {
     isRunning = false;
     updateButtonText();
     alarmSound.play();
-    resetTimeRemaining();
-    updatePageTitle();
+    if (sessionMode == "pomodoro") {
+        completedPomos++;
+        if (completedPomos % longBreakInterval === 0) {
+            setMode("long-break");
+        } else {
+            setMode("short-break");
+        }
+    } else {
+        setMode("pomodoro");
+    }
 }
 
 function pauseTimer() {
@@ -208,4 +220,5 @@ function saveSettings(event) {
         Number(shortBreakTimeInput.value) * 60,
         Number(longBreakTimeInput.value) * 60
     );
+    longBreakInterval = longBreakIntervalInput.value;
 }

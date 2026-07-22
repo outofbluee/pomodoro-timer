@@ -26,25 +26,35 @@
             <h2>SETTINGS</h2>
         </div>
 
-        <h3>Time (minutes)</h3>
         <form class="form-time">
-            <div class="form-container">
-                <label for="pomodoro-time">Pomodoro</label>
-                <input type="number" id="pomodoro-time" name="pomodoro-time">
+            <h3>Time (minutes)</h3>
+            <div class="form-fields">
+                <div class="form-container">
+                    <label for="pomodoro-time">Pomodoro</label>
+                    <input type="number" id="pomodoro-time" name="pomodoro-time">
+                </div>
+    
+                <div class="form-container">
+                    <label for="short-break-time">Short Break</label>
+                    <input type="number" id="short-break-time" name="short-break-time">
+                </div>
+    
+                <div class="form-container">
+                    <label for="long-break-time">Long Break</label>
+                    <input type="number" id="long-break-time" name="long-break-time">
+                </div>
             </div>
 
-            <div class="form-container">
-                <label for="short-break-time">Short Break</label>
-                <input type="number" id="short-break-time" name="short-break-time">
-            </div>
-
-            <div class="form-container">
-                <label for="long-break-time">Long Break</label>
-                <input type="number" id="long-break-time" name="long-break-time">
+            <h3>Long Break Interval</h3>
+            <div class="form-fields">
+                <div class="form-container">
+                    <input type="number" id="long-break-interval" name="long-break-interval">
+                </div>
             </div>
 
             <input class="submit-settings" type="submit" value="Submit">
         </form>
+
     </section>
     
     <main>
