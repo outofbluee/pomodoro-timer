@@ -36,6 +36,8 @@ let longBreakInterval = 2;
 let timeRemaining = sessionTime;
 let isRunning = false;
 let interval;
+let autoStartPomos = false;
+let autoStartBreaks = false;
 updateSettingsForm();
 
 timer.textContent = formatTime(sessionTime);
@@ -142,6 +144,10 @@ function endSession() {
     isRunning = false;
     updateButtonText();
     alarmSound.play();
+    switchMode();
+}
+
+function switchMode() {
     if (sessionMode == "pomodoro") {
         completedPomos++;
         if (completedPomos % longBreakInterval === 0) {
@@ -149,8 +155,14 @@ function endSession() {
         } else {
             setMode("short-break");
         }
+        if (autoStartBreaks) {
+            startTimer();
+        }
     } else {
         setMode("pomodoro");
+        if (autoStartPomos) {
+            startTimer();
+        }
     }
 }
 
