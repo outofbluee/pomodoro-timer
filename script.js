@@ -14,6 +14,8 @@ const pomodoroTimeInput = document.getElementById("pomodoro-time");
 const shortBreakTimeInput = document.getElementById("short-break-time");
 const longBreakTimeInput = document.getElementById("long-break-time");
 const longBreakIntervalInput = document.getElementById("long-break-interval");
+const autoStartBreaksInput = document.getElementById("auto-start-breaks");
+const autoStartPomosInput = document.getElementById("auto-start-pomodoros");
 const settingsForm = document.querySelector(".form-time");
 
 // Load audio files
@@ -36,8 +38,8 @@ let longBreakInterval = 2;
 let timeRemaining = sessionTime;
 let isRunning = false;
 let interval;
-let autoStartPomos = false;
 let autoStartBreaks = false;
+let autoStartPomos = false;
 updateSettingsForm();
 
 timer.textContent = formatTime(sessionTime);
@@ -81,6 +83,8 @@ function updateSettingsForm() {
     shortBreakTimeInput.value = shortBreakTime / 60;
     longBreakTimeInput.value = longBreakTime / 60;
     longBreakIntervalInput.value = longBreakInterval;
+    autoStartBreaksInput.checked = autoStartBreaks;
+    autoStartPomosInput.checked = autoStartPomos;
 }
 
 function getCurrentModeName() {
@@ -233,4 +237,7 @@ function saveSettings(event) {
         Number(longBreakTimeInput.value) * 60
     );
     longBreakInterval = longBreakIntervalInput.value;
+    autoStartBreaks = autoStartBreaksInput.checked;
+    autoStartPomos = autoStartPomosInput.checked;
+    settingsContainer.classList.add("hidden");
 }
