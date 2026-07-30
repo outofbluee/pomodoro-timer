@@ -44,6 +44,8 @@ let autoStartPomos = false;
 loadSettingsFromLocalStorage();
 updateSessionTime();
 updateSettingsForm();
+timeRemaining = sessionTime;
+
 timer.textContent = formatTime(sessionTime);
 updatePageTitle();
 
