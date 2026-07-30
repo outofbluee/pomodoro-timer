@@ -1,4 +1,4 @@
-// Get references to the HTML elements
+// ::: Get references to the HTML elements :::
 const timer = document.getElementById("timer");
 const startPauseButton = document.getElementById("btn-start-pause");
 const resetButton = document.getElementById("btn-reset");
@@ -18,10 +18,11 @@ const autoStartBreaksInput = document.getElementById("auto-start-breaks");
 const autoStartPomosInput = document.getElementById("auto-start-pomodoros");
 const settingsForm = document.querySelector(".form-time");
 
-// Load audio files
+// ::: Load audio files :::
 const alarmSound = new Audio("assets/audio/alarm.mp3");
 const buttonClickSound = new Audio("assets/audio/button-click.mp3");
 
+// ::: Variables :::
 // Define the durations for each session type in seconds
 let pomodoroTime = 3000;
 let shortBreakTime = 600;
@@ -32,7 +33,6 @@ let longBreakTime = 1800;
 let endTime;
 let sessionMode = "pomodoro";
 let sessionTime;
-updateSessionTime();
 let completedPomos = 0;
 let longBreakInterval = 2;
 let timeRemaining = sessionTime;
@@ -40,12 +40,14 @@ let isRunning = false;
 let interval;
 let autoStartBreaks = false;
 let autoStartPomos = false;
-updateSettingsForm();
 
+loadSettingsFromLocalStorage();
+updateSessionTime();
+updateSettingsForm();
 timer.textContent = formatTime(sessionTime);
 updatePageTitle();
 
-// Add event listeners to the buttons
+// ::: Add event listeners to the buttons :::
 startPauseButton.addEventListener("click", () => {
     buttonClickSound.play();
     toggleTimer();
@@ -72,6 +74,7 @@ longBreakButton.addEventListener("click", () => {
 
 settingsForm.addEventListener("submit", saveSettings);
 
+// ::: Functions ::: 
 function formatTime(totalSeconds) {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
@@ -102,7 +105,11 @@ function updateTimerDisplay() {
 }
 
 function updatePageTitle() {
-    document.title = formatTime(timeRemaining) + " - " + getCurrentModeName();
+    if (isRunning) {
+        document.title = formatTime(timeRemaining) + " - " + getCurrentModeName();
+    } else {
+        document.title = formatTime(sessionTime) + " - " + getCurrentModeName();
+    }
 }
 
 function resetTimeRemaining() {
@@ -236,8 +243,39 @@ function saveSettings(event) {
         Number(shortBreakTimeInput.value) * 60,
         Number(longBreakTimeInput.value) * 60
     );
-    longBreakInterval = longBreakIntervalInput.value;
+    longBreakInterval = Number(longBreakIntervalInput.value);
     autoStartBreaks = autoStartBreaksInput.checked;
     autoStartPomos = autoStartPomosInput.checked;
+    saveSettingsToLocalStorage();
     settingsContainer.classList.add("hidden");
+}
+
+function saveSettingsToLocalStorage() {
+    const settings = {
+        pomodoroTime,
+        shortBreakTime,
+        longBreakTime,
+        longBreakInterval,
+        autoStartPomos,
+        autoStartBreaks
+    };
+
+    localStorage.setItem("settings", JSON.stringify(settings));
+}
+
+function loadSettingsFromLocalStorage() {
+    const savedSettings = localStorage.getItem("settings");
+
+    if (savedSettings === null) {
+        return;
+    }
+
+    const settings = JSON.parse(savedSettings);
+
+    pomodoroTime = settings.pomodoroTime ?? pomodoroTime;
+    shortBreakTime = settings.shortBreakTime ?? shortBreakTime;
+    longBreakTime = settings.longBreakTime ?? longBreakTime;
+    longBreakInterval = settings.longBreakInterval ?? longBreakInterval;
+    autoStartPomos = settings.autoStartPomos ?? autoStartPomos;
+    autoStartBreaks = settings.autoStartBreaks ?? autoStartBreaks;
 }
