@@ -16,6 +16,8 @@ const longBreakTimeInput = document.getElementById("long-break-time");
 const longBreakIntervalInput = document.getElementById("long-break-interval");
 const autoStartBreaksInput = document.getElementById("auto-start-breaks");
 const autoStartPomosInput = document.getElementById("auto-start-pomodoros");
+const rangeInput = document.getElementById('range4');
+const rangeOutput = document.getElementById('rangeValue');
 const settingsForm = document.querySelector(".form-time");
 
 // ::: Load audio files :::
@@ -40,8 +42,10 @@ let isRunning = false;
 let interval;
 let autoStartBreaks = false;
 let autoStartPomos = false;
+let alarmSoundVolume = 1;
 
 loadSettingsFromLocalStorage();
+alarmSound.volume = alarmSoundVolume;
 updateSessionTime();
 updateSettingsForm();
 timeRemaining = sessionTime;
@@ -76,6 +80,13 @@ longBreakButton.addEventListener("click", () => {
 
 settingsForm.addEventListener("submit", saveSettings);
 
+rangeInput.addEventListener('input', function() {
+    rangeOutput.textContent = this.value;
+    alarmSound.volume = this.value / 100;
+    alarmSound.currentTime = 0;
+    alarmSound.play();
+});
+
 // ::: Functions ::: 
 function formatTime(totalSeconds) {
     let minutes = Math.floor(totalSeconds / 60);
@@ -90,6 +101,8 @@ function updateSettingsForm() {
     longBreakIntervalInput.value = longBreakInterval;
     autoStartBreaksInput.checked = autoStartBreaks;
     autoStartPomosInput.checked = autoStartPomos;
+    rangeInput.value = alarmSoundVolume * 100;
+    rangeOutput.textContent = alarmSoundVolume * 100;
 }
 
 function getCurrentModeName() {
@@ -248,6 +261,8 @@ function saveSettings(event) {
     longBreakInterval = Number(longBreakIntervalInput.value);
     autoStartBreaks = autoStartBreaksInput.checked;
     autoStartPomos = autoStartPomosInput.checked;
+    alarmSoundVolume = Number(rangeInput.value) / 100;
+    alarmSound.volume = alarmSoundVolume;
     saveSettingsToLocalStorage();
     settingsContainer.classList.add("hidden");
 }
@@ -259,7 +274,8 @@ function saveSettingsToLocalStorage() {
         longBreakTime,
         longBreakInterval,
         autoStartPomos,
-        autoStartBreaks
+        autoStartBreaks,
+        alarmSoundVolume
     };
 
     localStorage.setItem("settings", JSON.stringify(settings));
@@ -280,4 +296,5 @@ function loadSettingsFromLocalStorage() {
     longBreakInterval = settings.longBreakInterval ?? longBreakInterval;
     autoStartPomos = settings.autoStartPomos ?? autoStartPomos;
     autoStartBreaks = settings.autoStartBreaks ?? autoStartBreaks;
+    alarmSoundVolume = settings.alarmSoundVolume ?? alarmSoundVolume
 }
