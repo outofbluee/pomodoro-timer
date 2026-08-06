@@ -63,6 +63,7 @@ main {
 .settings-container {
     width: 500px;
     padding: 2rem;
+    margin: 5rem;
 
     display: flex;
     flex-direction: column;
