@@ -30,13 +30,13 @@ const buttonClickSound = new Audio("assets/audio/button-click.mp3");
 
 // ::: Define quotes :::
 const quotes = [
-    "O sucesso é a soma de pequenos esforços repetidos diariamente.",
-    "A disciplina vence a motivação quando ela falha.",
-    "Feito é melhor que perfeito.",
-    "Grandes resultados exigem consistência.",
-    "Concentre-se no progresso, não na perfeição.",
-    "Cada sessão de estudo aproxima você do seu objetivo.",
-    "A persistência transforma esforço em resultado."
+    "It gets easier. Give it time.",
+    "It's okay if you're tired.",
+    "Don’t be so hard on yourself.",
+    "As the water flows, so do your thoughts.",
+    "The sands of time will consume us all eventually.",
+    "Do not fear the storm, learn to dance in the rain.",
+    "Tomorrow, i shall journey once more."
 ];
 
 // ::: Variables :::
