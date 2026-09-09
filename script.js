@@ -18,11 +18,26 @@ const autoStartBreaksInput = document.getElementById("auto-start-breaks");
 const autoStartPomosInput = document.getElementById("auto-start-pomodoros");
 const rangeInput = document.getElementById('range4');
 const rangeOutput = document.getElementById('rangeValue');
+const showQuotesInput = document.getElementById('show-quotes');
 const settingsForm = document.querySelector(".form-time");
+
+const quoteElement = document.querySelector(".quote p");
+const quoteContainer = document.querySelector(".quote");
 
 // ::: Load audio files :::
 const alarmSound = new Audio("assets/audio/alarm.mp3");
 const buttonClickSound = new Audio("assets/audio/button-click.mp3");
+
+// ::: Define quotes :::
+const quotes = [
+    "O sucesso é a soma de pequenos esforços repetidos diariamente.",
+    "A disciplina vence a motivação quando ela falha.",
+    "Feito é melhor que perfeito.",
+    "Grandes resultados exigem consistência.",
+    "Concentre-se no progresso, não na perfeição.",
+    "Cada sessão de estudo aproxima você do seu objetivo.",
+    "A persistência transforma esforço em resultado."
+];
 
 // ::: Variables :::
 // Define the durations for each session type in seconds
@@ -42,6 +57,7 @@ let isRunning = false;
 let interval;
 let autoStartBreaks = false;
 let autoStartPomos = false;
+let showQuotes = true
 let alarmSoundVolume = 1;
 
 loadSettingsFromLocalStorage();
@@ -52,6 +68,8 @@ timeRemaining = sessionTime;
 
 timer.textContent = formatTime(sessionTime);
 updatePageTitle();
+updateQuote();
+updateQuotesVisibility();
 
 // ::: Add event listeners to the buttons :::
 startPauseButton.addEventListener("click", () => {
@@ -103,6 +121,7 @@ function updateSettingsForm() {
     autoStartPomosInput.checked = autoStartPomos;
     rangeInput.value = alarmSoundVolume * 100;
     rangeOutput.textContent = alarmSoundVolume * 100;
+    showQuotesInput.checked = showQuotes;
 }
 
 function getCurrentModeName() {
@@ -196,7 +215,6 @@ function pauseTimer() {
     clearInterval(interval);
     isRunning = false;
     updateButtonText();
-    updatePageTitle();
 }
 
 function resetTimer() {
@@ -262,6 +280,8 @@ function saveSettings(event) {
     autoStartBreaks = autoStartBreaksInput.checked;
     autoStartPomos = autoStartPomosInput.checked;
     alarmSoundVolume = Number(rangeInput.value) / 100;
+    showQuotes = showQuotesInput.checked;
+    updateQuotesVisibility();
     alarmSound.volume = alarmSoundVolume;
     saveSettingsToLocalStorage();
     settingsContainer.classList.add("hidden");
@@ -275,7 +295,8 @@ function saveSettingsToLocalStorage() {
         longBreakInterval,
         autoStartPomos,
         autoStartBreaks,
-        alarmSoundVolume
+        alarmSoundVolume,
+        showQuotes
     };
 
     localStorage.setItem("settings", JSON.stringify(settings));
@@ -297,4 +318,18 @@ function loadSettingsFromLocalStorage() {
     autoStartPomos = settings.autoStartPomos ?? autoStartPomos;
     autoStartBreaks = settings.autoStartBreaks ?? autoStartBreaks;
     alarmSoundVolume = settings.alarmSoundVolume ?? alarmSoundVolume
+    showQuotes = settings.showQuotes ?? showQuotes;
+}
+
+function getRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    return quotes[randomIndex];
+}
+
+function updateQuote() {
+    quoteElement.textContent = getRandomQuote();
+}
+
+function updateQuotesVisibility() {
+    quoteContainer.classList.toggle("hidden", !showQuotes);
 }

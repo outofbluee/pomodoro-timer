@@ -59,6 +59,14 @@ main {
     background-color: var(--container-color);
 }
 
+.quote {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+
+    font-family: "Playfair Display", serif;
+}
+
 /* Settings */
 .settings-container {
     width: 500px;
