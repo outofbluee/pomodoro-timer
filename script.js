@@ -60,50 +60,53 @@ let autoStartPomos = false;
 let showQuotes = true
 let alarmSoundVolume = 1;
 
-loadSettingsFromLocalStorage();
-alarmSound.volume = alarmSoundVolume;
-updateSessionTime();
-updateSettingsForm();
-timeRemaining = sessionTime;
+function initializeApp() {
+    loadSettingsFromLocalStorage();
+    alarmSound.volume = alarmSoundVolume;
+    updateSessionTime();
+    updateSettingsForm();
+    timeRemaining = sessionTime;
 
-timer.textContent = formatTime(sessionTime);
-updatePageTitle();
-updateQuote();
-updateQuotesVisibility();
+    timer.textContent = formatTime(sessionTime);
+    updatePageTitle();
+    updateQuote();
+    updateQuotesVisibility();
 
-// ::: Add event listeners to the buttons :::
-startPauseButton.addEventListener("click", () => {
-    buttonClickSound.play();
-    toggleTimer();
-});
+    startPauseButton.addEventListener("click", () => {
+        buttonClickSound.play();
+        toggleTimer();
+    });
 
-resetButton.addEventListener("click", () => {
-    buttonClickSound.play();
-    resetTimer();
-});
+    resetButton.addEventListener("click", () => {
+        buttonClickSound.play();
+        resetTimer();
+    });
 
-settingsButton.addEventListener("click", () => {
-    toggleSettingsContainer();
-});
+    settingsButton.addEventListener("click", () => {
+        toggleSettingsContainer();
+    });
 
-pomodoroButton.addEventListener("click", () => {
-    setMode("pomodoro");
-});
-shortBreakButton.addEventListener("click", () => {
-    setMode("short-break");
-});
-longBreakButton.addEventListener("click", () => {
-    setMode("long-break");
-});
+    pomodoroButton.addEventListener("click", () => {
+        setMode("pomodoro");
+    });
+    shortBreakButton.addEventListener("click", () => {
+        setMode("short-break");
+    });
+    longBreakButton.addEventListener("click", () => {
+        setMode("long-break");
+    });
 
-settingsForm.addEventListener("submit", saveSettings);
+    settingsForm.addEventListener("submit", saveSettings);
 
-rangeInput.addEventListener('input', function() {
-    rangeOutput.textContent = this.value;
-    alarmSound.volume = this.value / 100;
-    alarmSound.currentTime = 0;
-    alarmSound.play();
-});
+    rangeInput.addEventListener('input', function() {
+        rangeOutput.textContent = this.value;
+        alarmSound.volume = this.value / 100;
+        alarmSound.currentTime = 0;
+        alarmSound.play();
+    });
+}
+
+initializeApp();
 
 // ::: Functions ::: 
 function formatTime(totalSeconds) {
