@@ -52,7 +52,7 @@ let sessionMode = "pomodoro";
 let sessionTime;
 let completedPomos = 0;
 let longBreakInterval = 2;
-let timeRemaining = sessionTime;
+let timeRemaining;
 let isRunning = false;
 let interval;
 let autoStartBreaks = false;
@@ -60,6 +60,7 @@ let autoStartPomos = false;
 let showQuotes = true
 let alarmSoundVolume = 1;
 
+// ::: Initialization :::
 function initializeApp() {
     loadSettingsFromLocalStorage();
     alarmSound.volume = alarmSoundVolume;
@@ -106,25 +107,11 @@ function initializeApp() {
     });
 }
 
-initializeApp();
-
-// ::: Functions ::: 
+// ::: Display :::
 function formatTime(totalSeconds) {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
     return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
-}
-
-function updateSettingsForm() {
-    pomodoroTimeInput.value = pomodoroTime / 60;
-    shortBreakTimeInput.value = shortBreakTime / 60;
-    longBreakTimeInput.value = longBreakTime / 60;
-    longBreakIntervalInput.value = longBreakInterval;
-    autoStartBreaksInput.checked = autoStartBreaks;
-    autoStartPomosInput.checked = autoStartPomos;
-    rangeInput.value = alarmSoundVolume * 100;
-    rangeOutput.textContent = alarmSoundVolume * 100;
-    showQuotesInput.checked = showQuotes;
 }
 
 function getCurrentModeName() {
@@ -158,6 +145,7 @@ function updateButtonText() {
     startPauseButton.textContent = isRunning ? "Pause" : "Start";
 }
 
+// ::: Timer :::
 function toggleTimer() {
     if (isRunning) {
         pauseTimer();
@@ -228,6 +216,7 @@ function resetTimer() {
     updatePageTitle();
 }
 
+// ::: Session modes :::
 function setMode(mode) {
     sessionMode = mode;
     updateSessionTime();
@@ -270,6 +259,19 @@ function updateActiveButton() {
     pomodoroButton.classList.toggle("inactive", sessionMode !== "pomodoro");
     shortBreakButton.classList.toggle("inactive", sessionMode !== "short-break");
     longBreakButton.classList.toggle("inactive", sessionMode !== "long-break");
+}
+
+// ::: Settings :::
+function updateSettingsForm() {
+    pomodoroTimeInput.value = pomodoroTime / 60;
+    shortBreakTimeInput.value = shortBreakTime / 60;
+    longBreakTimeInput.value = longBreakTime / 60;
+    longBreakIntervalInput.value = longBreakInterval;
+    autoStartBreaksInput.checked = autoStartBreaks;
+    autoStartPomosInput.checked = autoStartPomos;
+    rangeInput.value = alarmSoundVolume * 100;
+    rangeOutput.textContent = alarmSoundVolume * 100;
+    showQuotesInput.checked = showQuotes;
 }
 
 function saveSettings(event) {
@@ -324,6 +326,7 @@ function loadSettingsFromLocalStorage() {
     showQuotes = settings.showQuotes ?? showQuotes;
 }
 
+// ::: Quotes :::
 function getRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     return quotes[randomIndex];
@@ -336,3 +339,5 @@ function updateQuote() {
 function updateQuotesVisibility() {
     quoteContainer.classList.toggle("hidden", !showQuotes);
 }
+
+initializeApp();
